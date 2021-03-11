@@ -1,7 +1,7 @@
 # rmList for Windows
 Multithreaded delete of a list of files
 
-use: rmList <input file>
+use: rmList input_file
 
 Could not find this anywhere. I share in the hope this can help you.
 Takes a list of file paths and deletes using multiple threads (UTF-8 input).
