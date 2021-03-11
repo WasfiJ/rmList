@@ -13,7 +13,6 @@
 #include <iostream>
 #include <string>
 #include <stdio.h>
-//#include <locale>
 #include <cctype>
 #include <assert.h>
 
@@ -68,7 +67,7 @@ inline void trim(std::string &str){       if(str.empty()) return;
     else str = std::move( std::string(str.begin()+front, str.begin()+back) );
 }
 
-// Use as many threads as thMax allows, abiding by minFilesChunk ±20% / hard maxFilesChunk
+// Use as many threads as thMax allows, abiding by minFilesChunk Â±20% / hard maxFilesChunk
 void chunckLogic(){
   if(thMax == 1 || nbFiles <= thMax || nbFiles<=minFilesChunk){ chunckSz = nbFiles; nbChunks = thMax = 1; return; }
   chunckSz = nbFiles / thMax; 
@@ -115,24 +114,6 @@ int main(int argc, char** argv) {
   nbFiles = fnames.size();
   if (nbFiles == 0) { flushOut("\nEmpty file: %s\n\n", fn); ; exit(0); }
   delete[] fn;
-
-  //HANDLE hFile = CreateFileW( L"titi",                // name of the write
-     // GENERIC_WRITE,          // open for writing
-     // 0,                      // do not share
-     // NULL,                   // default security
-     // CREATE_ALWAYS,             // create new file only
-     // FILE_ATTRIBUTE_NORMAL,  // normal file
-     // NULL);                  // no attr. template
-  //wchar_t *fn = uf8toWide(fnames[0].c_str());
-  //DWORD dwBytesToWrite = (DWORD)(sizeof(wchar_t)*wcslen(fn)), dwBytesWritten = 0;
-  //if(FALSE == WriteFile(
-     // hFile,           // open file handle
-     // fn,      // start of data to write
-     // dwBytesToWrite,  // number of bytes to write
-     // &dwBytesWritten, // number of bytes that were written
-     // NULL))
-  //printErr("Error: WriteFile",sysErr);
-  //flushOut("to write: %d, written: %d\n",dwBytesToWrite,dwBytesWritten);
 
   //thMax = 2; minFilesChunk = 1; maxFilesChunk = 10;
   chunckLogic(); 
@@ -210,8 +191,7 @@ DWORD WINAPI deleteFiles(LPVOID p) {
   //Lock(); flushErr("Thread %lu running: %lu to %lu\n", chunck, 1+s, 1+e); unLock();
   size_t mis = 0, DIR=0, notfound = 0; LPCWSTR fn; DWORD errorID, attr;
   for(auto i=s; i<=e; i++){ 
-    //if(remove(fnames[i].c_str()) != 0){ mis++; Lock(); perror("Error deleting file"); unLock(); }
-    fn = uf8toWide(fnames[i].c_str()); //wFn[chunck-1+i] = 
+    fn = uf8toWide(fnames[i].c_str());
     if(0==DeleteFileW(fn)) {      errorID = GetLastError();
       if(errorID==ERROR_FILE_NOT_FOUND||errorID==ERROR_PATH_NOT_FOUND){ delete[] fn; notfound++; continue; }
       mis++;
