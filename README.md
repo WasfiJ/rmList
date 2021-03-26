@@ -18,5 +18,6 @@ Planned features (if requested) :
 - Delete non-empty folders
 - Try to unlock files/folders to force deletion (dangerous)
 
+Please report any issues/requests to wj.osprojects@gmail.com
 
 Wasfi.
